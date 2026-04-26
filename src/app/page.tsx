@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import Terminal from "@/components/sections/Terminal";
 import ExperienceTimeline from "@/components/sections/ExperienceTimeline";
+import SkillsSection from "@/components/sections/SkillsSection";
 import ScrollIndicator from "@/components/ui/ScrollIndicator";
 
 export default function Home() {
@@ -37,8 +38,11 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Línea de tiempo (fuera de pantalla) */}
+      {/* Línea de tiempo de experiencia */}
       <ExperienceTimeline />
+
+      {/* Grid de habilidades */}
+      <SkillsSection />
     </div>
   );
 }
