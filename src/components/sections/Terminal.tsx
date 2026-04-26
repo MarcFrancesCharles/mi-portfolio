@@ -22,12 +22,10 @@ export default function Terminal() {
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalContainerRef = useRef<HTMLDivElement>(null);
 
-  // Autofoco sin scroll
   useEffect(() => {
     inputRef.current?.focus({ preventScroll: true });
   }, []);
 
-  // Scroll interno manual, sin afectar a la página
   useEffect(() => {
     if (terminalContainerRef.current && history.length > 1) {
       terminalContainerRef.current.scrollTop =
@@ -204,7 +202,7 @@ export default function Terminal() {
 
   return (
     <div
-      className="w-full max-w-4xl mx-auto rounded-lg overflow-hidden shadow-2xl border border-surface"
+      className="w-full max-w-4xl mx-auto rounded-lg overflow-hidden shadow-2xl border border-surface mt-8"
       onClick={focusInput}
     >
       {/* Barra de título al estilo terminal */}
@@ -220,7 +218,7 @@ export default function Terminal() {
       {/* Área de historial + entrada */}
       <div
         ref={terminalContainerRef}
-        className="bg-background p-4 font-mono text-sm h-[500px] overflow-y-auto"
+        className="bg-background p-4 font-mono text-sm h-[50vh] md:h-[500px] overflow-y-auto"
       >
         {history.map((entry, i) => (
           <div

@@ -10,7 +10,7 @@ export default function ScrollIndicator() {
     const handleScroll = () => {
       setVisible(window.scrollY < 50);
     };
-    handleScroll(); // check initial
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -24,13 +24,13 @@ export default function ScrollIndicator() {
       transition={{ delay: 1.5, duration: 0.8 }}
       className="flex flex-col items-center justify-center gap-2 mt-6 text-text-secondary text-sm"
     >
-      <span className="font-mono text-xs">$ scroll</span>
+      <span className="font-mono text-xs text-text-secondary">Descubre más</span>
       <motion.div
         animate={{ y: [0, 6, 0] }}
         transition={{ repeat: Infinity, duration: 1.5 }}
-        className="text-primary"
+        className="text-primary text-lg"
       >
-        ▼
+        ↓
       </motion.div>
     </motion.div>
   );

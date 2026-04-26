@@ -18,7 +18,7 @@ export default function SkillsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5, delay: index * 0.15 }}
-            className="bg-surface/30 backdrop-blur-sm rounded-lg p-6 border border-surface hover:border-primary transition-all duration-300 group"
+            className="bg-surface/30 backdrop-blur-sm rounded-lg p-6 border border-surface hover:border-primary hover:scale-[1.02] transition-all duration-300 group"
           >
             <div className="flex items-center gap-3 mb-4">
               <span className="text-2xl">{category.icon}</span>
@@ -37,7 +37,6 @@ export default function SkillsSection() {
                   title={tech.level}
                 >
                   {tech.name}
-                  {/* Tooltip personalizado opcional */}
                   <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface border border-primary/30 text-text-primary text-[10px] px-2 py-0.5 rounded opacity-0 group-hover/tag:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
                     {tech.level}
                   </span>

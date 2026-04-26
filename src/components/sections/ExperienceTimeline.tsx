@@ -20,10 +20,9 @@ export default function ExperienceTimeline() {
             transition={{ duration: 0.5, delay: index * 0.15 }}
             className="relative mb-12 last:mb-0"
           >
-            {/* Círculo en la línea */}
             <div className="absolute -left-[29px] md:-left-[37px] top-1 w-5 h-5 bg-primary rounded-full border-4 border-background shadow-glow" />
 
-            <div className="bg-surface/30 backdrop-blur-sm rounded-lg p-5 border border-surface hover:border-primary transition-all duration-300">
+            <div className="bg-surface/30 backdrop-blur-sm rounded-lg p-5 border border-surface hover:border-primary hover:scale-[1.02] transition-all duration-300">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-2">
                 <h3 className="text-lg font-semibold text-text-primary">
                   {exp.role}{" "}
