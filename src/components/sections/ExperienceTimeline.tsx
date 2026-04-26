@@ -1,19 +1,11 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { experiences } from "@/lib/data/Experience";
 
 export default function ExperienceTimeline() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-
   return (
-    <section
-      id="experiencia"
-      ref={sectionRef}
-      className="py-20 px-4 max-w-4xl mx-auto"
-    >
+    <section id="experiencia" className="py-20 px-4 max-w-4xl mx-auto">
       <h2 className="text-3xl md:text-4xl font-mono font-bold text-text-primary mb-12 text-center">
         <span className="text-primary">$ </span>Experiencia
       </h2>
@@ -23,8 +15,9 @@ export default function ExperienceTimeline() {
           <motion.div
             key={exp.id}
             initial={{ opacity: 0, x: -30 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.6, delay: index * 0.2 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: index * 0.15 }}
             className="relative mb-12 last:mb-0"
           >
             {/* Círculo en la línea */}
@@ -33,11 +26,16 @@ export default function ExperienceTimeline() {
             <div className="bg-surface/30 backdrop-blur-sm rounded-lg p-5 border border-surface hover:border-primary transition-all duration-300">
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-1 mb-2">
                 <h3 className="text-lg font-semibold text-text-primary">
-                  {exp.role} <span className="text-secondary">@ {exp.company}</span>
+                  {exp.role}{" "}
+                  <span className="text-secondary">@ {exp.company}</span>
                 </h3>
-                <span className="text-xs text-text-secondary font-mono whitespace-nowrap">{exp.period}</span>
+                <span className="text-xs text-text-secondary font-mono whitespace-nowrap">
+                  {exp.period}
+                </span>
               </div>
-              <p className="text-text-secondary text-sm mb-3">{exp.description}</p>
+              <p className="text-text-secondary text-sm mb-3">
+                {exp.description}
+              </p>
               <div className="flex flex-wrap gap-2">
                 {exp.technologies.map((tech) => (
                   <span

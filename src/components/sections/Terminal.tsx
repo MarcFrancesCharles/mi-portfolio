@@ -20,15 +20,19 @@ export default function Terminal() {
   const [historyIndex, setHistoryIndex] = useState(-1);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const terminalContainerRef = useRef<HTMLDivElement>(null);
 
-  // Autofoco al montar y cada vez que se haga clic en la terminal
+  // Autofoco sin scroll
   useEffect(() => {
-    inputRef.current?.focus();
+    inputRef.current?.focus({ preventScroll: true });
   }, []);
 
+  // Scroll interno manual, sin afectar a la página
   useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (terminalContainerRef.current && history.length > 1) {
+      terminalContainerRef.current.scrollTop =
+        terminalContainerRef.current.scrollHeight;
+    }
   }, [history]);
 
   const focusInput = () => {
@@ -119,13 +123,12 @@ export default function Terminal() {
               "Si no se abre, puedes descargarlo manualmente en /cv.pdf",
           },
         ];
-        // Intenta abrir el PDF en otra pestaña
         if (typeof window !== "undefined") {
           window.open("/cv.pdf", "_blank");
         }
         break;
       case "clear":
-        return []; // No añade nada, luego limpiamos el historial
+        return [];
       case "matrix":
         output = [
           {
@@ -152,7 +155,10 @@ export default function Terminal() {
   const handleCommand = () => {
     if (!input.trim()) return;
 
-    const newHistory: HistoryEntry[] = [...history, { type: "input", content: `marc@portfolio:~$ ${input}` }];
+    const newHistory: HistoryEntry[] = [
+      ...history,
+      { type: "input", content: `marc@portfolio:~$ ${input}` },
+    ];
 
     if (input.trim().toLowerCase() === "clear") {
       setHistory([]);
@@ -176,7 +182,10 @@ export default function Terminal() {
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (commandHistory.length === 0) return;
-      const newIndex = historyIndex === -1 ? commandHistory.length - 1 : Math.max(historyIndex - 1, 0);
+      const newIndex =
+        historyIndex === -1
+          ? commandHistory.length - 1
+          : Math.max(historyIndex - 1, 0);
       setHistoryIndex(newIndex);
       setInput(commandHistory[newIndex] || "");
     } else if (e.key === "ArrowDown") {
@@ -203,11 +212,16 @@ export default function Terminal() {
         <span className="w-3 h-3 rounded-full bg-red-500/80" />
         <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
         <span className="w-3 h-3 rounded-full bg-green-500/80" />
-        <span className="ml-3 text-xs text-text-secondary font-mono">marc@portfolio: ~</span>
+        <span className="ml-3 text-xs text-text-secondary font-mono">
+          marc@portfolio: ~
+        </span>
       </div>
 
       {/* Área de historial + entrada */}
-      <div className="bg-background p-4 font-mono text-sm h-[500px] overflow-y-auto">
+      <div
+        ref={terminalContainerRef}
+        className="bg-background p-4 font-mono text-sm h-[500px] overflow-y-auto"
+      >
         {history.map((entry, i) => (
           <div
             key={i}
@@ -237,12 +251,10 @@ export default function Terminal() {
             autoComplete="off"
             aria-label="Terminal input"
           />
-          {/* Cursor parpadeante personalizado cuando el input está vacío */}
           {input.length === 0 && (
             <span className="w-2 h-5 bg-primary animate-pulse ml-[1px]" />
           )}
         </div>
-        <div ref={terminalEndRef} />
       </div>
     </div>
   );
