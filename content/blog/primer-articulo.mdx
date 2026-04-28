@@ -1,0 +1,33 @@
+---
+title: "Cómo construí este portfolio interactivo con Next.js 16, Tailwind v4 y una terminal funcional"
+excerpt: "Te enseño paso a paso cómo creé un portfolio que incluye una terminal real, modo oscuro, animaciones de scroll y una arquitectura Full Stack."
+date: "2025-04-01"
+tags: ["Next.js", "React", "Tailwind", "Terminal", "Portfolio"]
+---
+
+En este artículo voy a explicar las decisiones técnicas detrás de mi portfolio personal. No es solo una carta de presentación, es una **prueba viviente** de mis habilidades como desarrollador Full Stack.
+
+## La idea: un portfolio que hable por sí mismo
+
+Quería que cualquier reclutador técnico viera mi web y pensara _"este desarrollador no solo maqueta, sabe construir productos completos"_. Para ello necesitaba tres pilares:
+
+1. **Una terminal real** que respondiera a comandos y demostrara mi dominio de la lógica frontend.
+2. **Un diseño premium** con animaciones suaves y modo oscuro/claro.
+3. **Contenido estratégico** que mostrara mi experiencia, habilidades y proyectos como casos de éxito.
+
+## El stack elegido
+
+- **Next.js 16** con App Router: renderizado híbrido, SEO y rendimiento.
+- **Tailwind CSS v4**: utilidades modernas y tema personalizado con variables CSS.
+- **Framer Motion**: animaciones declarativas para la timeline y las tarjetas.
+- **next-mdx-remote**: para este mismo blog.
+
+## El desafío de la terminal
+
+La terminal no es un adorno. Implementé un historial de comandos, navegación con flechas, autofoco y scroll interno aislado para que no afectase al resto de la página. Cada comando (`help`, `whoami`, `skills`, `projects`, `cv`, `matrix`) devuelve información real.
+
+El mayor reto fue evitar que el `scrollIntoView` moviera toda la página. Lo resolví con una referencia al contenedor y manipulando directamente `scrollTop`.
+
+## Conclusión
+
+Este portfolio es mi mejor carta de presentación. Si quieres ver el código, está en mi GitHub. Y si te gusta lo que ves, ¡hablemos!
