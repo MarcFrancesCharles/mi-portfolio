@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
-import { getPostBySlug, getAllPosts } from "@/lib/blog";
+import { getPostBySlugServer, getAllPostsServer } from "@/lib/blog-server";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import type { Metadata } from "next";
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
+  const posts = await getAllPostsServer();
   return posts.map((post) => ({
     slug: post.slug,
   }));
@@ -16,7 +16,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlugServer(slug);
 
   if (!post) {
     return { title: "Artículo no encontrado" };
@@ -34,7 +34,7 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlugServer(slug);
 
   if (!post) notFound();
 

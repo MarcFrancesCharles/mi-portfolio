@@ -1,11 +1,34 @@
 "use client";
 
 import { useState, useRef, useEffect, KeyboardEvent } from "react";
+import MatrixRain from "@/components/ui/MatrixRain";
 
 type HistoryEntry = {
   type: "input" | "output" | "error";
   content: string;
 };
+
+const NEOFETCH = `
+╔══════════════════════════════════════╗
+║  ███╗   ███╗ █████╗ ██████╗  ██████╗║
+║  ████╗ ████║██╔══██╗██╔══██╗██╔════╝║
+║  ██╔████╔██║███████║██████╔╝██║     ║
+║  ██║╚██╔╝██║██╔══██║██╔══██╗██║     ║
+║  ██║ ╚═╝ ██║██║  ██║██║  ██║╚██████╗║
+║  ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝║
+╚══════════════════════════════════════╝
+
+  marc@portfolio
+  ─────────────────────────────────────
+  OS:       Next.js 16 + TypeScript
+  Shell:    React Terminal v2.0
+  DE:       Tailwind CSS v4
+  WM:       Framer Motion
+  Theme:    Dark Retro-Futuristic RPG
+  CPU:      Full Stack Developer
+  RAM:      Unlimited ideas
+  Location: Lleida, España 🇪🇸
+  Status:   Open to work ✅`;
 
 export default function Terminal() {
   const [input, setInput] = useState("");
@@ -13,37 +36,34 @@ export default function Terminal() {
     {
       type: "output",
       content:
-        "Bienvenid@ a la web interactiva de Marc FC. Escribe 'help' para ver los comandos disponibles.",
+        "Bienvenid@ a la web interactiva de Marc FC.\nEscribe 'help' para ver los comandos disponibles.",
     },
   ]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+  const [isHacking, setIsHacking] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const terminalContainerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     inputRef.current?.focus({ preventScroll: true });
   }, []);
 
   useEffect(() => {
-    if (terminalContainerRef.current && history.length > 1) {
-      terminalContainerRef.current.scrollTop =
-        terminalContainerRef.current.scrollHeight;
+    if (containerRef.current && history.length > 1) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
   }, [history]);
 
-  const focusInput = () => {
-    inputRef.current?.focus();
-  };
+  const focusInput = () => inputRef.current?.focus();
 
   const processCommand = (cmd: string): HistoryEntry[] => {
     const trimmed = cmd.trim().toLowerCase();
-    let output: HistoryEntry[] = [];
 
     switch (trimmed) {
       case "help":
-        output = [
+        return [
           {
             type: "output",
             content:
@@ -53,43 +73,45 @@ export default function Terminal() {
               "  projects   → Proyectos destacados\n" +
               "  contact    → ¿Cómo contactarme?\n" +
               "  cv         → Descargar currículum\n" +
+              "  neofetch   → System info\n" +
               "  clear      → Limpiar la terminal\n" +
-              "  matrix     → ????",
+              "  matrix     → ????\n" +
+              "  hack       → [CLASSIFIED]",
           },
         ];
-        break;
+
       case "whoami":
-        output = [
+        return [
           {
             type: "output",
             content:
               "Marc Frances Charles\n" +
               "Full Stack Developer\n" +
               "Formación: Desarrollo de Aplicaciones Web (DAW)\n" +
-              "Ubicación: Lleida\n",
+              "Ubicación: Lleida, España\n",
           },
         ];
-        break;
+
       case "skills":
-        output = [
+        return [
           {
             type: "output",
             content:
               "Frontend:\n" +
-              "  React · Next.js · TypeScript · Angular · Tailwind CSS · HTML5 · CSS3 \n\n" +
+              "  React · Next.js · TypeScript · Angular · Tailwind CSS\n\n" +
               "Backend:\n" +
-              "  Node.js · Next.js API Routes · Express · Laravel · SQL · PostgreSQL \n\n" +
+              "  Node.js · Express · Laravel · PostgreSQL · Prisma ORM\n\n" +
               "DevOps & Tools:\n" +
-              "  Git · GitHub · Docker · Vercel · CI/CD · Testing (Vitest, Playwright)",
+              "  Git · Docker · Vercel · Vitest · Playwright",
           },
         ];
-        break;
+
       case "projects":
-        output = [
+        return [
           {
             type: "output",
             content:
-              "1. E‑commerce Full Stack\n" +
+              "1. E-commerce Full Stack\n" +
               "   Next.js · Prisma · Stripe · Tailwind · Vercel\n" +
               "   Tienda completa con carrito, pagos y panel admin.\n\n" +
               "2. Dashboard de Analíticas\n" +
@@ -100,75 +122,93 @@ export default function Terminal() {
               "   Autenticación, roles y documentación Swagger.",
           },
         ];
-        break;
+
       case "contact":
-        output = [
+        return [
           {
             type: "output",
+            // ✅ CORRECCIÓN: era gmail,com
             content:
-              "Email: mfrancescharles@gmail,com\n" +
+              "Email:    mfrancescharles@gmail.com\n" +
               "LinkedIn: linkedin.com/in/MarcFrancesCharles\n" +
-              "GitHub: github.com/MarcFrancesCharles\n\n",
+              "GitHub:   github.com/MarcFrancesCharles\n\n" +
+              "O usa el formulario en la sección ↓ #contacto",
           },
         ];
-        break;
+
       case "cv":
-        output = [
+        if (typeof window !== "undefined") window.open("/cv.pdf", "_blank");
+        return [
           {
             type: "output",
             content:
               "Abriendo CV en nueva pestaña...\n" +
-              "Si no se abre, puedes descargarlo manualmente en /cv.pdf",
+              "Si no se abre, descárgalo en /cv.pdf",
           },
         ];
-        if (typeof window !== "undefined") {
-          window.open("/cv.pdf", "_blank");
-        }
-        break;
+
+      case "neofetch":
+        return [{ type: "output", content: NEOFETCH }];
+
       case "clear":
         return [];
+
       case "matrix":
-        output = [
+        return [
           {
             type: "output",
             content:
               "Wake up, Neo...\n" +
               "The Matrix has you...\n\n" +
+              "⬛🟩⬛🟩⬛🟩⬛🟩⬛🟩\n" +
+              "🟩⬛🟩⬛🟩⬛🟩⬛🟩⬛\n" +
               "⬛🟩⬛🟩⬛🟩⬛🟩⬛🟩",
           },
         ];
-        break;
+
+      case "hack":
+        setIsHacking(true);
+        setTimeout(() => setIsHacking(false), 4000);
+        return [
+          {
+            type: "output",
+            content:
+              "INICIANDO SECUENCIA...\n" +
+              ">> Bypassing firewall..........OK\n" +
+              ">> Extracting credentials.....OK\n" +
+              ">> Root access granted........OK\n\n" +
+              "[ BIENVENIDO AL SISTEMA, AGENTE ]",
+          },
+        ];
+
       default:
-        output = [
+        return [
           {
             type: "error",
-            content: `Comando no reconocido: '${cmd}'. Escribe 'help' para ver la lista de comandos.`,
+            content: `Comando no reconocido: '${cmd}'. Escribe 'help' para ver los comandos.`,
           },
         ];
     }
-
-    return output;
   };
 
   const handleCommand = () => {
     if (!input.trim()) return;
 
-    const newHistory: HistoryEntry[] = [
+    const withInput: HistoryEntry[] = [
       ...history,
       { type: "input", content: `marc@portfolio:~$ ${input}` },
     ];
 
     if (input.trim().toLowerCase() === "clear") {
       setHistory([]);
-      setInput("");
       setCommandHistory((prev) => [...prev, input]);
       setHistoryIndex(-1);
+      setInput("");
       return;
     }
 
     const output = processCommand(input);
-    const updatedHistory = [...newHistory, ...output];
-    setHistory(updatedHistory);
+    setHistory([...withInput, ...output]);
     setCommandHistory((prev) => [...prev, input]);
     setHistoryIndex(-1);
     setInput("");
@@ -179,79 +219,82 @@ export default function Terminal() {
       handleCommand();
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      if (commandHistory.length === 0) return;
-      const newIndex =
+      if (!commandHistory.length) return;
+      const idx =
         historyIndex === -1
           ? commandHistory.length - 1
           : Math.max(historyIndex - 1, 0);
-      setHistoryIndex(newIndex);
-      setInput(commandHistory[newIndex] || "");
+      setHistoryIndex(idx);
+      setInput(commandHistory[idx] || "");
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
       if (historyIndex === -1) return;
-      const newIndex = historyIndex + 1;
-      if (newIndex >= commandHistory.length) {
+      const idx = historyIndex + 1;
+      if (idx >= commandHistory.length) {
         setHistoryIndex(-1);
         setInput("");
       } else {
-        setHistoryIndex(newIndex);
-        setInput(commandHistory[newIndex] || "");
+        setHistoryIndex(idx);
+        setInput(commandHistory[idx] || "");
       }
     }
   };
 
   return (
-    <div
-      className="w-full max-w-4xl mx-auto rounded-lg overflow-hidden shadow-2xl border border-surface mt-8"
-      onClick={focusInput}
-    >
-      {/* Barra de título al estilo terminal */}
-      <div className="bg-surface px-4 py-2 flex items-center gap-2 border-b border-text-secondary/20">
-        <span className="w-3 h-3 rounded-full bg-red-500/80" />
-        <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
-        <span className="w-3 h-3 rounded-full bg-green-500/80" />
-        <span className="ml-3 text-xs text-text-secondary font-mono">
-          marc@portfolio: ~
-        </span>
-      </div>
+    <div className="relative w-full max-w-4xl mx-auto mt-8">
+      {isHacking && <MatrixRain />}
 
-      {/* Área de historial + entrada */}
       <div
-        ref={terminalContainerRef}
-        className="bg-background p-4 font-mono text-sm h-[50vh] md:h-[500px] overflow-y-auto"
+        className="rounded-lg overflow-hidden shadow-2xl border border-surface cursor-text"
+        onClick={focusInput}
       >
-        {history.map((entry, i) => (
-          <div
-            key={i}
-            className={`mb-1 whitespace-pre-wrap break-words ${
-              entry.type === "input"
-                ? "text-primary"
-                : entry.type === "error"
-                ? "text-error"
-                : "text-text-primary"
-            }`}
-          >
-            {entry.content}
-          </div>
-        ))}
+        {/* Title bar */}
+        <div className="bg-surface px-4 py-2 flex items-center gap-2 border-b border-text-secondary/20">
+          <span className="w-3 h-3 rounded-full bg-red-500/80" />
+          <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
+          <span className="w-3 h-3 rounded-full bg-green-500/80" />
+          <span className="ml-3 text-xs text-text-secondary font-mono">
+            marc@portfolio: ~
+          </span>
+        </div>
 
-        {/* Línea de entrada activa */}
-        <div className="flex items-center text-primary mt-1">
-          <span>marc@portfolio:~$&nbsp;</span>
-          <input
-            ref={inputRef}
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent border-none outline-none text-text-primary font-mono text-sm"
-            spellCheck={false}
-            autoComplete="off"
-            aria-label="Terminal input"
-          />
-          {input.length === 0 && (
-            <span className="w-2 h-5 bg-primary animate-pulse ml-[1px]" />
-          )}
+        {/* Body */}
+        <div
+          ref={containerRef}
+          className="bg-background p-4 font-mono text-sm h-[50vh] md:h-[500px] overflow-y-auto"
+        >
+          {history.map((entry, i) => (
+            <div
+              key={i}
+              className={`mb-1 whitespace-pre-wrap break-words ${
+                entry.type === "input"
+                  ? "text-primary"
+                  : entry.type === "error"
+                  ? "text-error"
+                  : "text-text-primary"
+              }`}
+            >
+              {entry.content}
+            </div>
+          ))}
+
+          <div className="flex items-center text-primary mt-1">
+            <span>marc@portfolio:~$&nbsp;</span>
+            <input
+              ref={inputRef}
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="flex-1 bg-transparent border-none outline-none text-text-primary font-mono text-sm"
+              spellCheck={false}
+              autoComplete="off"
+              aria-label="Terminal input"
+            />
+            {input.length === 0 && (
+              <span className="w-2 h-5 bg-primary animate-pulse ml-[1px]" />
+            )}
+          </div>
         </div>
       </div>
     </div>

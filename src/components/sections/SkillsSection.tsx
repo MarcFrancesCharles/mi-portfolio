@@ -18,10 +18,10 @@ export default function SkillsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5, delay: index * 0.15 }}
-            className="bg-surface/30 backdrop-blur-sm rounded-lg p-6 border border-surface hover:border-primary hover:scale-[1.02] transition-all duration-300 group"
+            className="bg-surface/30 backdrop-blur-sm rounded-lg p-6 border border-surface hover:border-primary hover:scale-[1.02] transition-all duration-300"
           >
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-2xl">{category.icon}</span>
+              <span className="text-2xl" aria-hidden="true">{category.icon}</span>
               <h3 className="text-xl font-semibold text-text-primary font-mono">
                 {category.title}
               </h3>
@@ -35,6 +35,8 @@ export default function SkillsSection() {
                   key={tech.name}
                   className="relative px-2.5 py-1 text-xs font-mono bg-background rounded border border-text-secondary/20 text-primary cursor-default group/tag"
                   title={tech.level}
+                  // ✅ CORRECCIÓN: aria-label para accesibilidad táctil
+                  aria-label={`${tech.name}: ${tech.level}`}
                 >
                   {tech.name}
                   <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface border border-primary/30 text-text-primary text-[10px] px-2 py-0.5 rounded opacity-0 group-hover/tag:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">

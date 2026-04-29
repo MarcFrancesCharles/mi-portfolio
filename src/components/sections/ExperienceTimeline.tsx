@@ -1,16 +1,38 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { experiences } from "@/lib/data/Experience";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { experiences } from "@/lib/data/experience";
+import { useRef } from "react";
 
 export default function ExperienceTimeline() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Anima la línea vertical según el scroll a través de la sección
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 80%", "end 20%"],
+  });
+  const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
+
   return (
-    <section id="experiencia" className="py-20 px-4 max-w-4xl mx-auto">
+    <section
+      id="experiencia"
+      ref={sectionRef}
+      className="py-20 px-4 max-w-4xl mx-auto"
+    >
       <h2 className="text-3xl md:text-4xl font-mono font-bold text-text-primary mb-12 text-center">
         <span className="text-primary">$ </span>Experiencia
       </h2>
 
-      <div className="relative border-l-2 border-surface pl-6 md:pl-10">
+      <div className="relative pl-6 md:pl-10">
+        {/* Línea estática de fondo */}
+        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-surface" />
+        {/* Línea animada con scroll progress */}
+        <motion.div
+          className="absolute left-0 top-0 w-0.5 bg-primary origin-top"
+          style={{ height: lineHeight }}
+        />
+
         {experiences.map((exp, index) => (
           <motion.div
             key={exp.id}
@@ -20,6 +42,7 @@ export default function ExperienceTimeline() {
             transition={{ duration: 0.5, delay: index * 0.15 }}
             className="relative mb-12 last:mb-0"
           >
+            {/* Nodo de la timeline */}
             <div className="absolute -left-[29px] md:-left-[37px] top-1 w-5 h-5 bg-primary rounded-full border-4 border-background shadow-glow" />
 
             <div className="bg-surface/30 backdrop-blur-sm rounded-lg p-5 border border-surface hover:border-primary hover:scale-[1.02] transition-all duration-300">

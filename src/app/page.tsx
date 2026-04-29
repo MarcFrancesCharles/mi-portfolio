@@ -6,8 +6,13 @@ import Terminal from "@/components/sections/Terminal";
 import ExperienceTimeline from "@/components/sections/ExperienceTimeline";
 import SkillsSection from "@/components/sections/SkillsSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
+import AboutSection from "@/components/sections/AboutSection";
+import ContactSection from "@/components/sections/ContactSection";
+import BlogPreviewFallback from "@/components/sections/BlogPreviewFallback";
 import ScrollIndicator from "@/components/ui/ScrollIndicator";
 import Footer from "@/components/layout/Footer";
+import TypingEffect from "@/components/ui/TypingEffect";
+import RecruiterModal from "@/components/ui/RecruiterModal";
 
 export default function Home() {
   useEffect(() => {
@@ -16,7 +21,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      {/* Hero a pantalla completa con animación de entrada */}
+      {/* ── Hero ─────────────────────────────────────────── */}
       <section
         id="inicio"
         className="min-h-screen pt-20 pb-10 flex flex-col items-center justify-center px-4"
@@ -27,28 +32,33 @@ export default function Home() {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="w-full max-w-4xl flex flex-col items-center"
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-2 text-center">
+          <h1 className="text-4xl md:text-5xl font-bold text-text-primary mb-2 text-center min-h-[2.5em] md:min-h-[1.5em]">
             Construyo{" "}
-            <span className="text-primary">productos digitales</span> de alto
-            rendimiento
+            <span className="text-primary">
+              <TypingEffect />
+            </span>
           </h1>
+
           <p className="text-text-secondary text-center mb-8 max-w-2xl">
             Full Stack Developer · Next.js / Node.js / TypeScript · Formación
             DAW. Desde la arquitectura del servidor hasta el pixel perfect en el
             frontend.
           </p>
 
-          {/* Botón de CV */}
-          <a
+          {/* ── Botón CV ── */}
+           <a
             href="/cv.pdf"
             download
-            className="inline-flex items-center gap-2 px-6 py-3 mt-4 bg-primary text-background font-semibold rounded-lg hover:shadow-glow hover:scale-105 transition-all duration-300"
+            aria-label="Descargar Currículum Vitae en PDF"
+            className="inline-flex items-center gap-2 px-6 py-3 mt-4 bg-primary text-background font-semibold rounded-lg hover:shadow-glow hover:scale-105 active:scale-95 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
               viewBox="0 0 20 20"
               fill="currentColor"
+              aria-hidden="true"
+              focusable="false"
             >
               <path
                 fillRule="evenodd"
@@ -64,16 +74,28 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Línea de tiempo de experiencia */}
+      {/* ── Sobre mí ─────────────────────────────────────── */}
+      <AboutSection />
+
+      {/* ── Experiencia ──────────────────────────────────── */}
       <ExperienceTimeline />
 
-      {/* Grid de habilidades */}
+      {/* ── Skills ───────────────────────────────────────── */}
       <SkillsSection />
 
-      {/* Casos de estudio (proyectos) */}
+      {/* ── Proyectos ────────────────────────────────────── */}
       <ProjectsSection />
 
+      {/* ── Blog Preview ─────────────────────────────────── */}
+      <BlogPreviewFallback />
+
+      {/* ── Contacto ─────────────────────────────────────── */}
+      <ContactSection />
+
       <Footer />
+
+      {/* ── Botón flotante reclutador ─────────────────────── */}
+      <RecruiterModal />
     </div>
   );
 }

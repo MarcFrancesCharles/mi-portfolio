@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { getAllPosts } from "@/lib/blog";
+import type { BlogPost } from "@/lib/blog";
 
-export default function BlogPreview() {
-  const posts = getAllPosts().slice(0, 3);
+export default function BlogPreview({ posts }: { posts: BlogPost[] }) {
+  const displayPosts = posts.slice(0, 3);
 
   return (
     <section id="blog" className="py-20 px-4 max-w-4xl mx-auto">
@@ -11,7 +11,7 @@ export default function BlogPreview() {
       </h2>
 
       <div className="grid gap-6 md:grid-cols-3">
-        {posts.map((post) => (
+        {displayPosts.map((post) => (
           <Link
             key={post.slug}
             href={`/blog/${post.slug}`}

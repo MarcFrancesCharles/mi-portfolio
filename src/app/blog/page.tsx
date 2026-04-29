@@ -1,13 +1,13 @@
 import Link from "next/link";
-import { getAllPosts } from "@/lib/blog";
+import { getAllPostsServer } from "@/lib/blog-server";
 
 export const metadata = {
   title: "Blog | Marc FC",
   description: "Artículos sobre desarrollo Full Stack, Next.js, React y más.",
 };
 
-export default function BlogPage() {
-  const posts = getAllPosts();
+export default async function BlogPage() {
+  const posts = await getAllPostsServer();
 
   return (
     <div className="min-h-screen pt-24 pb-20 px-4 max-w-4xl mx-auto">
