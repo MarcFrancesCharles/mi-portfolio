@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import CustomCursor from "@/components/ui/CustomCursor";
 import "./globals.css";
 
+
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",

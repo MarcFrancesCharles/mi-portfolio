@@ -17,18 +17,30 @@ export default function Header() {
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
 
+  // Si clickamos en Inicio y ya estamos en Inicio, subimos arriba del todo
   const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (isHome) {
       e.preventDefault();
-      // ✅ CORRECCIÓN: scrollTo asegura el tope real independientemente de márgenes
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+  };
+
+  // Si clickamos en una sección y ya estamos en Inicio, hacemos scroll suave a esa parte
+  const handleSectionClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (isHome) {
+      e.preventDefault();
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+    // Si NO estamos en home, no prevenimos el evento y dejamos que Next.js nos lleve a /#seccion
   };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-surface px-6 py-3 flex justify-between items-center h-16">
       <Link
-        href="/#inicio"
+        href="/"
         onClick={handleHomeClick}
         className={`font-mono text-primary text-lg tracking-wider hover:text-secondary transition-colors ${navLink}`}
         aria-label="Inicio"
@@ -42,22 +54,22 @@ export default function Header() {
         className="hidden md:flex gap-5 text-sm text-text-secondary"
         aria-label="Navegación principal"
       >
-        <Link href="/#inicio" onClick={handleHomeClick} className={navLink}>
+        <Link href="/" onClick={handleHomeClick} className={navLink}>
           Inicio
         </Link>
-        <Link href="/#sobre-mi" className={navLink}>
+        <Link href="/#sobre-mi" onClick={(e) => handleSectionClick(e, 'sobre-mi')} className={navLink}>
           Sobre mí
         </Link>
-        <Link href="/#experiencia" className={navLink}>
+        <Link href="/#experiencia" onClick={(e) => handleSectionClick(e, 'experiencia')} className={navLink}>
           Experiencia
         </Link>
-        <Link href="/#proyectos" className={navLink}>
+        <Link href="/#proyectos" onClick={(e) => handleSectionClick(e, 'proyectos')} className={navLink}>
           Proyectos
         </Link>
         <Link href="/blog" className={navLink}>
           Blog
         </Link>
-        <Link href="/#contacto" className={navLink}>
+        <Link href="/#contacto" onClick={(e) => handleSectionClick(e, 'contacto')} className={navLink}>
           Contacto
         </Link>
       </nav>
