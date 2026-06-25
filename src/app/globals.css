@@ -252,3 +252,40 @@ html:not(.dark) .glass {
   border-top: 1px solid var(--color-border);
   margin: 2rem 0;
 }
+/* ============================================
+   COMING SOON — Neón
+   ============================================ */
+.neon-text {
+  color: var(--color-primary);
+  text-shadow:
+    0 0 6px rgba(62, 245, 168, 0.6),
+    0 0 16px rgba(62, 245, 168, 0.45),
+    0 0 38px rgba(62, 245, 168, 0.3);
+  animation: neon-pulse 2.6s ease-in-out infinite;
+}
+
+.neon-link {
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+.neon-link:hover {
+  color: var(--color-primary);
+  text-shadow:
+    0 0 6px rgba(62, 245, 168, 0.6),
+    0 0 16px rgba(62, 245, 168, 0.4);
+}
+
+.neon-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  box-shadow: 0 0 8px rgba(62, 245, 168, 0.9);
+  animation: neon-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes neon-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
