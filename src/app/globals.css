@@ -261,7 +261,7 @@ html:not(.dark) .glass {
     0 0 6px rgba(62, 245, 168, 0.6),
     0 0 16px rgba(62, 245, 168, 0.45),
     0 0 38px rgba(62, 245, 168, 0.3);
-  animation: neon-pulse 2.6s ease-in-out infinite;
+  animation: neon-flicker 4s linear infinite;
 }
 
 .neon-link {
@@ -288,4 +288,13 @@ html:not(.dark) .glass {
 @keyframes neon-pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.55; }
+}
+
+@keyframes neon-flicker {
+  0%, 100%   { opacity: 1; }
+  92%        { opacity: 1; }
+  93%        { opacity: 0.6; }
+  94%        { opacity: 1; }
+  96%        { opacity: 0.75; }
+  97%        { opacity: 1; }
 }

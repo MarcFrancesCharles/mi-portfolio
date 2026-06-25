@@ -24,11 +24,6 @@ export default function Home() {
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="relative z-10 flex flex-col items-center text-center"
       >
-        <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/40 px-4 py-1.5 text-xs font-mono uppercase tracking-[0.3em] text-primary">
-          <span className="neon-dot" />
-          En construcción
-        </span>
-
         <h1 className="neon-text font-mono text-5xl font-bold leading-tight sm:text-7xl md:text-8xl">
           Working on it
         </h1>
