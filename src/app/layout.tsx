@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import Header from "@/components/layout/Header";
 import CustomCursor from "@/components/ui/CustomCursor";
 import "./globals.css";
 
@@ -39,7 +38,6 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
           {/* Cursor personalizado (solo desktop) */}
           <CustomCursor />
-          <Header />
           <main className="min-h-screen">{children}</main>
         </ThemeProvider>
       </body>
